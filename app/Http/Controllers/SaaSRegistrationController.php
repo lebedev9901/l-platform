@@ -1,0 +1,49 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Company;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
+class SaaSRegistrationController extends Controller
+{
+    public function showForm()
+    {
+       
+        return view('saas.register');
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'company_name' => 'required|string|max:255',
+            'subdomain' => 'required|string|max:50|unique:companies,subdomain',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6|confirmed'
+        ]);
+
+        $company = Company::create([
+            'name' => $request->company_name,
+            'subdomain' => $request->subdomain,
+            'tariff' => 'free'
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'company_id' => $company->id
+        ]);
+
+        Auth::login($user);
+
+        
+           return redirect()->away("http://l-platform.test/dashboard?company={$company->subdomain}");
+
+
+    }
+}

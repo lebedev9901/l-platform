@@ -9,11 +9,23 @@ class Company extends Model
     protected $fillable = [
         'name',
         'subdomain',
-        'tariff'
+        'tariff',
+        'user_id'
     ];
     
     public function user()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
+
 }

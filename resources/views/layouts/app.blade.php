@@ -1,36 +1,59 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ $title ?? 'L-Platform' }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                darkBlue: '#001D3D',
+                deepBlue: '#003566',
+                yellow: '#FFC300',
+                gold: '#FFD60A',
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+    <!-- HEADER -->
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="/" class="font-bold text-xl text-deepBlue">L-Platform</a>
+            <ul class="flex gap-6 text-gray-700">
+                <li><a href="/about" class="hover:text-black">О платформе</a></li>
+                <li><a href="/features" class="hover:text-black">Возможности</a></li>
+                <li><a href="/contacts" class="hover:text-black">Контакты</a></li>
+                <li><a href="/privacy" class="hover:text-black">Политика</a></li>
+                <li>
+                    <a href="/create" class="bg-yellow hover:bg-gold text-darkBlue px-4 py-2 rounded-lg font-medium">Создать</a>
+                </li>
+            </ul>
         </div>
-    </body>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+        @yield('content')
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t mt-10">
+        <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <ul class="flex gap-6 text-gray-600">
+                <li><a href="/contacts" class="hover:text-black">Контакты</a></li>
+                <li><a href="/privacy" class="hover:text-black">Политика</a></li>
+                <li><a href="#" class="hover:text-black">Поддержка</a></li>
+            </ul>
+            <span class="text-gray-500">&copy; {{ date('Y') }} L-Platform</span>
+        </div>
+    </footer>
+
+</body>
 </html>

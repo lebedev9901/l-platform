@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained()->cascadeOnDelete();
             $table->string('title');
+            $table->enum('status', ['new', 'in_progress', 'done'])->default('new');
+            $table->date('deadline')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
             });

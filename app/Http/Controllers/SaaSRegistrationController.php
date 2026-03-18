@@ -26,23 +26,24 @@ class SaaSRegistrationController extends Controller
             'password' => 'required|string|min:6|confirmed'
         ]);
 
-        $company = Company::create([
-            'name' => $request->company_name,
-            'subdomain' => $request->subdomain,
-            'tariff' => 'free'
-        ]);
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'company_id' => $company->id
+            'role' => 'owner'
         ]);
 
         Auth::login($user);
 
+        $company = Company::create([
+            'name' => $request->company_name,
+            'subdomain' => $request->subdomain,
+            'tariff' => 'free',
+            'user_id' => $user->id,
+        ]);
+
         
-           return redirect()->away("http://l-platform.test/dashboard?company={$company->subdomain}");
+        return redirect()->away("http://l-platform.test/dashboard?company={$company->subdomain}");
 
 
     }

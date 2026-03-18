@@ -28,4 +28,14 @@ class Task extends Model
         'title',
         'description'
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class, 'employee_task', 'task_id', 'employee_id')->withTimestamps();
+    }
 }

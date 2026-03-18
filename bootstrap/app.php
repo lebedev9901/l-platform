@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Middleware\EmployeeAuth;
+use App\Http\Middleware\IdentifyCompany;
+use App\Http\Middleware\TenatMiddleware;
 use App\Http\Middleware\UpdateLastActivity;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -14,11 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
              $middleware->alias([
-        'employee.auth' => EmployeeAuth::class,
-        'employee.activity' => UpdateLastActivity::class,
+            'employee.auth' => EmployeeAuth::class,
+            'employee.activity' => UpdateLastActivity::class,
+            'identify.company' => IdentifyCompany::class,
     ]);
    
-    // $middleware->append(\App\Http\Middleware\TenatMiddleware::class);
+            $middleware->append(IdentifyCompany::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

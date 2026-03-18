@@ -13,7 +13,7 @@ class SaaSRegistrationController extends Controller
     public function showForm()
     {
        
-        return view('saas.register');
+        return view('register-company');
     }
 
     public function register(Request $request)
@@ -42,8 +42,11 @@ class SaaSRegistrationController extends Controller
             'user_id' => $user->id,
         ]);
 
+         $dashboardUrl = "http://{$company->subdomain}.l-platform.test/dashboard";
+
         
-        return redirect()->away("http://l-platform.test/dashboard?company={$company->subdomain}");
+        return redirect()->to($dashboardUrl)
+                         ->with('success', "Компания {$company->name} успешно создана!");
 
 
     }

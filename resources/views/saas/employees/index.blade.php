@@ -65,7 +65,7 @@
 
                 <!-- Статистика задач -->
                 <div class="mt-3 text-sm space-y-1">
-                    <p>Всего задач: <span class="font-semibold">{{ $employee->tasks_count }}</span></p>
+                    <p>Всего задач: <span class="font-semibold tasks_count">{{ $employee->tasks_count }}</span></p>
                     <p>В работе: <span class="font-semibold text-yellow-600">{{ $employee->tasks_in_progress_count }}</span></p>
                     <p>Выполнено: <span class="font-semibold text-green-600">{{ $employee->tasks_done_count }}</span></p>
                     <p>Просрочено: <span class="font-semibold text-red-600">{{ $employee->overdue_tasks_count }}</span></p>
@@ -163,7 +163,7 @@ function dashBoard(){
 
 // Убираем Echo, делаем просто AJAX polling каждые 5 секунд
     // 1️⃣ Последняя активность
-    fetch('/api/employees/notifications')
+    fetch('/employees/notifications')
         .then(res => res.json())
         .then(data => {
             activityList.innerHTML = '';
@@ -175,7 +175,7 @@ function dashBoard(){
         });
 
     // 2️⃣ KPI
-    fetch('/api/employees/kpi')
+    fetch('/employees/kpi')
         .then(res => res.json())
         .then(data => {
             kpiEmployees.textContent = data.totalEmployees;

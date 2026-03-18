@@ -9,7 +9,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $company = Company::first();
+        $company = app('currentCompany');
 
         $totalEmployees = $company ? $company->employees()->count() : 0;
         $totalTasks = $company ? $company->tasks()->count() : 0;

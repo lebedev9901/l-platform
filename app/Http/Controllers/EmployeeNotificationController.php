@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class EmployeeNotificationController extends Controller
 {
     public function index()
     {
-        $employee = auth()->user();
-        $notifications = $employee->notifications()->latest()->take(10)->get();
+        $company = auth()->user()->company;
+        $notifications = Employee::where('company_id', $company->id)->with('notifications')->get()
+        ->flatMap(fn($e) => $e->notifications)
+        ->sortByDesc('create_at')
+        ->take(10);
 
         return response()->json($notifications->map(fn($n) => $n->data));
     }

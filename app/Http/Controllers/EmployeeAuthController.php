@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeeAuthController extends Controller
 {
@@ -14,6 +15,13 @@ class EmployeeAuthController extends Controller
 
     public function login(Request $request)
     {
+        $credentaials = $request->only('email', 'password');
+
+        if(Auth::guard('employee')->attempt($credentaials)){
+           $request->session()->generate();
+           $company = app('currentCompany');
+           return redirect()->to("http://{$company->subdomain}.l-platform.test/dashboard"); 
+        }
         $request->validate([
             'pin_code' => 'required'
         ]);

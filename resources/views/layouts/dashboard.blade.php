@@ -5,6 +5,7 @@
     <title>Dashboard | l-Platform</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 
 <body class="bg-gray-100">

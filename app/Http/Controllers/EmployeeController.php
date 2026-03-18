@@ -12,7 +12,7 @@ class EmployeeController extends Controller
     public function index()
     {
 
-    $company = Company::first();
+    $company = app('currentCompany');
 
     $employees = $company->employees()->withCount([
         'tasks',
@@ -76,7 +76,7 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-        $company = Company::first();
+       $company = app('currentCompany');
        $employee = Employee::create([
             'company_id' => $company->id,
             'name' => $request->name,
